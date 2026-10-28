@@ -167,5 +167,5 @@ export const site: Site = {
   // Contact form: get a free access key at https://web3forms.com (enter your email, the key is emailed to you)
   // and paste it here. Messages will then arrive in your inbox. This key is safe to be public.
   // While it's empty, the form opens the visitor's email app instead.
-  contactFormKey: '',
+  contactFormKey: 'acdae097-ddf4-45c4-8887-2efb68a78bce',
 };
