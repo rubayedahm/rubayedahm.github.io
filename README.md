@@ -1,14 +1,20 @@
 # Rubayed Ahmed — Portfolio
 
-A minimal, single-page portfolio. Plain HTML + CSS, no build step.
+A minimal, interactive single-page portfolio. Plain HTML, CSS and JavaScript, no build step.
 
 ## Edit content
-Everything lives in `index.html`:
-- **Hero / About**: edit the text directly.
-- **Projects**: each project is one `<li>` inside `<ul class="projects">`. Copy one to add more.
-- **Contact**: update the email and LinkedIn link.
+**All your content is in `content.js`**: name, intro, experience, education, skills, highlights and contact links.
+You don't need to touch the other files. Anything marked `TODO` is a placeholder.
 
-Colors are at the top of `style.css` (`:root`). Light/dark mode is automatic, with a toggle.
+- **Photo**: add a square-ish photo to `assets/` (e.g. `assets/profile.jpg`) and set `photo: "assets/profile.jpg"`.
+- **CV**: add `assets/cv.pdf` and set `cv: "assets/cv.pdf"` to show a "Download CV" button.
+- **Highlights**: set `highlights: []` to hide that section.
+
+## Features
+Typing animation, scroll-reveal animations, scroll progress bar, active-section nav,
+dark mode with a circular transition (View Transitions API), quick menu (⌘K / Ctrl K),
+tilt + spotlight effects on cards, copy-email button, contact form that opens the email app,
+mobile menu, SEO structured data. Respects "reduce motion" settings.
 
 ## Hosting (GitHub Pages, free)
 Pushing to `main` publishes the site at `https://rubayedahm.github.io/`.

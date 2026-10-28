@@ -3,128 +3,162 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rubayed Ahmed — Web Developer</title>
-  <meta name="description" content="Rubayed Ahmed is a web developer building fast, clean websites and web apps.">
-  <meta property="og:title" content="Rubayed Ahmed — Web Developer">
-  <meta property="og:description" content="Fast, clean websites and web apps.">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23111'/><text x='50%' y='56%' font-family='Arial' font-weight='700' font-size='16' fill='%23fff' text-anchor='middle' dominant-baseline='middle'>RA</text></svg>">
+  <title>Rubayed Ahmed — Business Management & Leadership</title>
+  <meta name="description" content="Rubayed Ahmed — Business Management and Leadership student at Coventry University. Experience, education, skills and contact.">
+  <meta name="theme-color" content="#fafaf9">
+  <meta property="og:title" content="Rubayed Ahmed">
+  <meta property="og:description" content="Business Management & Leadership student at Coventry University.">
+  <meta property="og:type" content="profile">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23111'/><text x='50%' y='56%' font-family='Arial' font-weight='700' font-size='15' fill='%23fff' text-anchor='middle' dominant-baseline='middle'>RA</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Apply saved theme before paint to avoid a flash
+    try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
 </head>
 <body>
-  <header class="wrap nav">
-    <a href="#top" class="logo">Rubayed Ahmed</a>
-    <nav>
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <button id="theme" class="theme" aria-label="Toggle dark mode">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
-      </button>
-    </nav>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="logo" data-name>Rubayed Ahmed</a>
+      <nav class="links" aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-tools">
+        <button class="kbd-btn" id="open-palette" aria-label="Open quick menu">
+          <span class="mono">⌘K</span>
+        </button>
+        <button class="icon-btn" id="theme" aria-label="Toggle dark mode">
+          <svg class="sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menu" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <main id="top" class="wrap">
-    <section class="hero">
-      <p class="mono muted">Hi, I'm Rubayed 👋</p>
-      <h1>Web developer building fast, clean&nbsp;and thoughtful websites.</h1>
-      <p class="lead muted">
-        I design and build sites and web apps that load quickly, work everywhere,
-        and are easy to use. Currently open to freelance and full‑time work.
-      </p>
-      <div class="actions">
-        <a class="btn" href="#contact">Get in touch</a>
-        <a class="link" href="#work">See my work →</a>
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero wrap">
+      <div class="hero-text">
+        <p class="status mono reveal"><span class="dot"></span><span data-status></span></p>
+        <h1 class="reveal">
+          Hi, I'm <span data-first></span>.<br>
+          I'm a <em class="typed" aria-live="polite"></em><span class="caret" aria-hidden="true"></span>
+        </h1>
+        <p class="lead muted reveal" data-intro></p>
+        <div class="actions reveal">
+          <a class="btn" href="#contact">Get in touch</a>
+          <a class="btn ghost" id="cv-btn" href="#" download hidden>Download CV ↓</a>
+          <a class="link" href="#experience">View experience →</a>
+        </div>
+      </div>
+      <figure class="photo reveal">
+        <div class="photo-frame tilt">
+          <img data-photo alt="Portrait of Rubayed Ahmed" width="400" height="400">
+        </div>
+        <figcaption class="mono muted"><span class="pin">⌖</span> <span data-location></span></figcaption>
+      </figure>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true"><div class="marquee-track"></div></div>
+
+    <!-- ABOUT -->
+    <section id="about" class="section wrap">
+      <h2 class="label mono reveal"><span>01</span> About</h2>
+      <div class="about-grid">
+        <div class="about-text reveal" data-about></div>
+        <dl class="facts reveal" data-facts></dl>
       </div>
     </section>
 
-    <!-- WORK: replace these with your real projects -->
-    <section id="work" class="section">
-      <h2 class="label mono">Selected work</h2>
-      <ul class="projects">
-        <li>
-          <a href="https://github.com/rubayedahm" target="_blank" rel="noopener">
-            <div class="row">
-              <h3>Project One</h3>
-              <span class="mono muted">2026</span>
-            </div>
-            <p class="muted">A short sentence about what it is and the problem it solves.</p>
-            <p class="tags mono">React · Node.js · Tailwind</p>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/rubayedahm" target="_blank" rel="noopener">
-            <div class="row">
-              <h3>Project Two</h3>
-              <span class="mono muted">2025</span>
-            </div>
-            <p class="muted">A short sentence about what it is and the problem it solves.</p>
-            <p class="tags mono">Next.js · TypeScript</p>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/rubayedahm" target="_blank" rel="noopener">
-            <div class="row">
-              <h3>Project Three</h3>
-              <span class="mono muted">2025</span>
-            </div>
-            <p class="muted">A short sentence about what it is and the problem it solves.</p>
-            <p class="tags mono">HTML · CSS · JavaScript</p>
-          </a>
-        </li>
-      </ul>
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section wrap">
+      <h2 class="label mono reveal"><span>02</span> Experience</h2>
+      <ol class="timeline" data-experience></ol>
     </section>
 
-    <section id="about" class="section">
-      <h2 class="label mono">About</h2>
-      <div class="about">
-        <p>
-          I'm a web developer who cares about the details: performance,
-          accessibility, and interfaces that feel simple. I enjoy turning ideas
-          into products people actually like to use.
-        </p>
-        <p class="muted">
-          When I'm not coding, I'm learning new tools, exploring design, and
-          working on side projects.
-        </p>
-        <h3 class="mono small">Tools I use</h3>
-        <ul class="skills mono">
-          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>TypeScript</li>
-          <li>React</li><li>Next.js</li><li>Node.js</li><li>Tailwind</li><li>Git</li>
-        </ul>
+    <!-- EDUCATION -->
+    <section id="education" class="section wrap">
+      <h2 class="label mono reveal"><span>03</span> Education</h2>
+      <div class="edu" data-education></div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section wrap">
+      <h2 class="label mono reveal"><span>04</span> Skills</h2>
+      <div class="skills-tabs reveal" role="tablist" data-skill-tabs></div>
+      <ul class="skills reveal" data-skills></ul>
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section id="highlights" class="section wrap">
+      <h2 class="label mono reveal"><span>05</span> Highlights</h2>
+      <div class="cards" data-highlights></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section wrap">
+      <h2 class="label mono reveal"><span>06</span> Contact</h2>
+      <div class="contact-grid">
+        <div class="reveal">
+          <p class="big">Let's talk about <em>opportunities</em>, ideas, or just say hello.</p>
+          <button class="email" id="copy-email" title="Click to copy">
+            <span data-email></span>
+            <span class="copy-hint mono">copy</span>
+          </button>
+          <ul class="social mono" data-socials></ul>
+        </div>
+        <form class="form reveal" id="contact-form" novalidate>
+          <label>Name<input name="name" required autocomplete="name"></label>
+          <label>Email<input name="email" type="email" required autocomplete="email"></label>
+          <label>Message<textarea name="message" rows="4" required></textarea></label>
+          <button class="btn" type="submit">Send message</button>
+          <p class="form-note mono muted">Opens your email app with the message ready to send.</p>
+        </form>
       </div>
-    </section>
-
-    <section id="contact" class="section">
-      <h2 class="label mono">Contact</h2>
-      <p class="big">Have a project in mind? <br>Let's build something together.</p>
-      <a class="email" href="mailto:rubayed.ahmed02@gmail.com">rubayed.ahmed02@gmail.com</a>
-      <ul class="social mono">
-        <li><a href="https://github.com/rubayedahm" target="_blank" rel="noopener">GitHub ↗</a></li>
-        <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
-      </ul>
     </section>
   </main>
 
   <footer class="wrap footer mono muted">
-    <span>© <span id="year">2026</span> Rubayed Ahmed</span>
-    <a href="#top">Back to top ↑</a>
+    <span>© <span id="year"></span> <span data-name>Rubayed Ahmed</span></span>
+    <span class="hide-sm">Press <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> to jump anywhere</span>
+    <a href="#top">Top ↑</a>
   </footer>
 
-  <script>
-    const root = document.documentElement, btn = document.getElementById('theme');
-    try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch (e) {}
-    btn.addEventListener('click', () => {
-      const dark = root.dataset.theme
-        ? root.dataset.theme === 'dark'
-        : matchMedia('(prefers-color-scheme: dark)').matches;
-      root.dataset.theme = dark ? 'light' : 'dark';
-      try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
-    });
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <!-- Mobile menu -->
+  <div class="drawer" id="drawer" hidden>
+    <nav aria-label="Mobile">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Command palette -->
+  <dialog class="palette" id="palette" aria-label="Quick menu">
+    <input id="palette-input" placeholder="Type a command or search…" autocomplete="off" spellcheck="false">
+    <ul id="palette-list" role="listbox"></ul>
+    <p class="palette-foot mono muted"><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> select <kbd>esc</kbd> close</p>
+  </dialog>
+
+  <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
