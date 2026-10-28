@@ -314,8 +314,9 @@ main, footer { position: relative; z-index: 1; }
 @media (max-width: 880px) {
   .links, .kbd-btn { display: none; }
   .menu-btn { display: grid; place-content: center; }
-  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 48px; padding-bottom: 64px; }
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 64px; padding-bottom: 64px; }
   .photo { justify-self: start; max-width: 260px; grid-row: 1; }
+  .photo figcaption { text-align: left; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 36px; }
   .hide-sm { display: none; }
 }

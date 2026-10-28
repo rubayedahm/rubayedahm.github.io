@@ -9,9 +9,9 @@ window.SITE = {
   name: "Rubayed Ahmed",
   firstName: "Rubayed",
 
-  // Your photo: put a square image in the "assets" folder
+  // Your photo: put a portrait (4:5) image in the "assets" folder
   // (e.g. assets/profile.jpg) and change the path below.
-  photo: "assets/profile.svg",
+  photo: "assets/profile.jpg",
 
   // Rotating words shown in the hero ("I'm a ...")
   roles: [
