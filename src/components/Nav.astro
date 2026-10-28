@@ -16,7 +16,7 @@ const { name } = Astro.props;
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="logo" aria-label={`${name} — home`}><Logo class="logo-mark" /><span class="logo-name">{name}</span></a>
+    <a href="#top" class="logo" aria-label={`${name} — home`}><Logo class="logo-mark" size={34} /></a>
     <nav class="links" aria-label="Main">
       {links.map((l) => <a href={l.href}>{l.label}</a>)}
     </nav>
