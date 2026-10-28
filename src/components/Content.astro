@@ -1,0 +1,130 @@
+---
+import Section from './Section.astro';
+import { site } from '../data/site';
+
+const skillGroups = Object.keys(site.skills);
+const allSkills = Object.values(site.skills).flat();
+---
+
+<Section id="about" index={1} title="About">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      {site.about.map((p) => <p>{p}</p>)}
+    </div>
+    <dl class="facts reveal">
+      {
+        site.facts.map((f) => (
+          <div>
+            <dt class="mono">{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</Section>
+
+<Section id="experience" index={2} title="Experience">
+  <ol class="timeline">
+    {
+      site.experience.map((x, i) => (
+        <li class="tl-item reveal" style={`--i:${i}`}>
+          <div class="tl-when mono muted">
+            {x.start} — {x.end}
+          </div>
+          <div class="tl-body">
+            <h3>
+              {x.role} <span class="muted">· {x.org}</span>
+            </h3>
+            <p class="tl-meta mono muted">{[x.type, x.location].filter(Boolean).join(' · ')}</p>
+            <ul>
+              {x.points.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
+
+<Section id="education" index={3} title="Education">
+  <div class="edu">
+    {
+      site.education.map((e) => (
+        <article class="edu-card tilt reveal">
+          <p class="mono muted">
+            {e.start} — {e.end}
+          </p>
+          <h3>{e.degree}</h3>
+          <p class="edu-school">{e.school}</p>
+          <p class="muted">{e.details}</p>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+
+<Section id="skills" index={4} title="Skills">
+  <div class="skills-tabs reveal" role="tablist">
+    {
+      ['All', ...skillGroups].map((g, i) => (
+        <button role="tab" class="mono" data-tab={g} aria-selected={i === 0 ? 'true' : 'false'}>
+          {g}
+        </button>
+      ))
+    }
+  </div>
+  <ul class="skills reveal">
+    {
+      allSkills.map((s, i) => (
+        <li style={`--i:${i}`} data-groups={skillGroups.filter((g) => site.skills[g].includes(s)).join('|')}>
+          {s}
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+{
+  site.highlights.length > 0 && (
+    <Section id="highlights" index={5} title="Highlights">
+      <div class="cards">
+        {site.highlights.map((h) => (
+          <article class="card tilt reveal">
+            <span class="tag mono">{h.tag}</span>
+            <h3>{h.title}</h3>
+            <p class="muted">{h.text}</p>
+          </article>
+        ))}
+      </div>
+    </Section>
+  )
+}
+
+<script>
+  import { $, $$ } from '../scripts/dom';
+
+  // Skill filter tabs
+  const tabs = $('.skills-tabs');
+  const items = $$('.skills li');
+  tabs.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>('button');
+    if (!btn) return;
+    const tab = btn.dataset.tab ?? 'All';
+    $$('button', tabs).forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
+    let i = 0;
+    items.forEach((li) => {
+      const show = tab === 'All' || (li.dataset.groups ?? '').split('|').includes(tab);
+      li.hidden = !show;
+      if (show) {
+        li.style.setProperty('--i', String(i++));
+        // restart the pop-in animation
+        li.style.animation = 'none';
+        void li.offsetWidth;
+        li.style.animation = '';
+      }
+    });
+  });
+</script>

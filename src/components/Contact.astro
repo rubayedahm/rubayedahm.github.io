@@ -1,0 +1,118 @@
+---
+import Section from './Section.astro';
+import { site } from '../data/site';
+---
+
+<Section id="contact" index={6} title="Contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <p class="big">Let's talk about <em>opportunities</em>, ideas, or just say hello.</p>
+      <button class="email" id="copy-email" title="Click to copy" data-email={site.email}>
+        <span>{site.email}</span>
+        <span class="copy-hint mono">copy</span>
+      </button>
+      <ul class="social mono">
+        {
+          site.socials.map((s) => (
+            <li>
+              <a href={s.url} target="_blank" rel="noopener">
+                {s.label} ↗
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <form class="form reveal" id="contact-form" novalidate data-key={site.contactFormKey} data-email={site.email}>
+      <label>Name<input name="name" required autocomplete="name" maxlength="100" /></label>
+      <label>Email<input name="email" type="email" required autocomplete="email" maxlength="200" /></label>
+      <label>Message<textarea name="message" rows="5" required maxlength="5000"></textarea></label>
+      <!-- Spam trap: real people never fill this in -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn" type="submit">
+        <span class="btn-label">Send message</span>
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+      <p class="form-note mono muted" aria-live="polite">
+        {site.contactFormKey ? "I'll get back to you as soon as I can." : 'Opens your email app with the message ready to send.'}
+      </p>
+    </form>
+  </div>
+</Section>
+
+<script>
+  import { $, copyText, showToast } from '../scripts/dom';
+
+  interface ContactMessage {
+    name: string;
+    email: string;
+    message: string;
+    botcheck?: string;
+  }
+
+  const copyBtn = $<HTMLButtonElement>('#copy-email');
+  copyBtn.addEventListener('click', () => copyText(copyBtn.dataset.email ?? '', 'Email copied to clipboard ✓'));
+
+  const form = $<HTMLFormElement>('#contact-form');
+  const note = $('.form-note', form);
+  const submit = $<HTMLButtonElement>('button[type="submit"]', form);
+  const accessKey = form.dataset.key ?? '';
+  const ownerEmail = form.dataset.email ?? '';
+
+  async function sendWithWeb3Forms(data: ContactMessage): Promise<void> {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `New message from ${data.name} via your portfolio`,
+        from_name: 'Portfolio website',
+        replyto: data.email,
+        ...data,
+      }),
+    });
+    const json: { success: boolean; message?: string } = await res.json();
+    if (!json.success) throw new Error(json.message ?? 'Something went wrong');
+  }
+
+  function openEmailApp(data: ContactMessage): void {
+    const subject = encodeURIComponent(`Hello from ${data.name}`);
+    const body = encodeURIComponent(`${data.message}\n\n— ${data.name} (${data.email})`);
+    location.href = `mailto:${ownerEmail}?subject=${subject}&body=${body}`;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.classList.add('tried');
+      showToast('Please fill in every field');
+      return;
+    }
+    const data = Object.fromEntries(new FormData(form)) as unknown as ContactMessage;
+    if (data.botcheck) return;
+    delete data.botcheck;
+
+    if (!accessKey) {
+      openEmailApp(data);
+      showToast('Opening your email app…');
+      return;
+    }
+
+    form.classList.add('sending');
+    submit.disabled = true;
+    try {
+      await sendWithWeb3Forms(data);
+      form.reset();
+      form.classList.remove('tried');
+      note.textContent = 'Thanks! Your message has been sent ✓';
+      showToast('Message sent ✓');
+    } catch {
+      note.textContent = 'Sorry, that didn’t send. Please email me directly instead.';
+      showToast('Message failed to send');
+    } finally {
+      form.classList.remove('sending');
+      submit.disabled = false;
+    }
+  });
+</script>

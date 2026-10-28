@@ -1,0 +1,124 @@
+---
+import { site } from '../data/site';
+
+// Serialisable command list; actions are resolved in the client script below.
+const commands = [
+  { label: 'Go to About', hint: 'Section', action: 'goto', value: '#about' },
+  { label: 'Go to Experience', hint: 'Section', action: 'goto', value: '#experience' },
+  { label: 'Go to Education', hint: 'Section', action: 'goto', value: '#education' },
+  { label: 'Go to Skills', hint: 'Section', action: 'goto', value: '#skills' },
+  ...(site.highlights.length ? [{ label: 'Go to Highlights', hint: 'Section', action: 'goto', value: '#highlights' }] : []),
+  { label: 'Go to Contact', hint: 'Section', action: 'goto', value: '#contact' },
+  { label: 'Copy email address', hint: 'Action', action: 'copy', value: site.email },
+  { label: 'Send an email', hint: 'Action', action: 'link', value: `mailto:${site.email}` },
+  { label: 'Toggle dark / light mode', hint: 'Action', action: 'theme', value: '' },
+  ...(site.cv ? [{ label: 'Download CV', hint: 'Action', action: 'link', value: site.cv }] : []),
+  ...site.socials.map((s) => ({ label: `Open ${s.label}`, hint: 'Link', action: 'open', value: s.url })),
+];
+---
+
+<dialog class="palette" id="palette" aria-label="Quick menu" data-commands={JSON.stringify(commands)}>
+  <input id="palette-input" placeholder="Type a command or search…" autocomplete="off" spellcheck="false" />
+  <ul id="palette-list" role="listbox"></ul>
+  <p class="palette-foot mono muted"><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> select <kbd>esc</kbd> close</p>
+</dialog>
+
+<script>
+  import { $, copyText, reduceMotion } from '../scripts/dom';
+
+  type Action = 'goto' | 'copy' | 'link' | 'open' | 'theme';
+  interface Command {
+    label: string;
+    hint: string;
+    action: Action;
+    value: string;
+  }
+
+  const palette = $<HTMLDialogElement>('#palette');
+  const input = $<HTMLInputElement>('#palette-input');
+  const list = $<HTMLUListElement>('#palette-list');
+  const commands: Command[] = JSON.parse(palette.dataset.commands ?? '[]');
+
+  const actions: Record<Action, (value: string) => void> = {
+    goto: (id) => document.querySelector(id)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }),
+    copy: (text) => copyText(text, 'Email copied to clipboard ✓'),
+    link: (url) => (location.href = url),
+    open: (url) => window.open(url, '_blank', 'noopener'),
+    theme: () => window.dispatchEvent(new Event('toggle-theme')),
+  };
+
+  let filtered = commands;
+  let selected = 0;
+
+  function render(): void {
+    const q = input.value.trim().toLowerCase();
+    filtered = commands.filter((c) => c.label.toLowerCase().includes(q));
+    selected = Math.min(selected, Math.max(filtered.length - 1, 0));
+    list.replaceChildren(
+      ...(filtered.length
+        ? filtered.map((c, i) => {
+            const li = document.createElement('li');
+            li.role = 'option';
+            li.dataset.i = String(i);
+            li.setAttribute('aria-selected', String(i === selected));
+            const label = document.createElement('span');
+            label.textContent = c.label;
+            const hint = document.createElement('span');
+            hint.className = 'mono muted';
+            hint.textContent = c.hint;
+            li.append(label, hint);
+            return li;
+          })
+        : [Object.assign(document.createElement('li'), { className: 'empty muted', textContent: 'No results' })]),
+    );
+    list.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function open(): void {
+    if (palette.open) return;
+    input.value = '';
+    selected = 0;
+    render();
+    palette.showModal();
+    input.focus();
+  }
+
+  function run(i: number): void {
+    const c = filtered[i];
+    if (!c) return;
+    palette.close();
+    actions[c.action](c.value);
+  }
+
+  $('#open-palette').addEventListener('click', open);
+  input.addEventListener('input', () => {
+    selected = 0;
+    render();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (!filtered.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      selected = (selected + step + filtered.length) % filtered.length;
+      render();
+    }
+    if (e.key === 'Enter') run(selected);
+  });
+  list.addEventListener('click', (e) => {
+    const li = (e.target as Element).closest<HTMLLIElement>('li[data-i]');
+    if (li) run(Number(li.dataset.i));
+  });
+  palette.addEventListener('click', (e) => e.target === palette && palette.close());
+  addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      palette.open ? palette.close() : open();
+    }
+  });
+
+  // Show "Ctrl K" instead of "⌘K" on non-Apple devices
+  if (!/Mac|iPhone|iPad/.test(navigator.userAgent)) {
+    $('#open-palette span').textContent = 'Ctrl K';
+  }
+</script>

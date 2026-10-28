@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Content from '../components/Content.astro';
+import Contact from '../components/Contact.astro';
+import CommandPalette from '../components/CommandPalette.astro';
+import { site } from '../data/site';
+---
+
+<Base>
+  <Nav name={site.name} />
+  <main id="top">
+    <Hero />
+    <Content />
+    <Contact />
+  </main>
+  <footer class="wrap footer mono muted">
+    <span>© {new Date().getFullYear()} {site.name}</span>
+    <span class="hide-sm">Press <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> to jump anywhere</span>
+    <a href="#top">Top ↑</a>
+  </footer>
+  <CommandPalette />
+</Base>

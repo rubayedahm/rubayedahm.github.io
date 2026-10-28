@@ -328,3 +328,23 @@ main, footer { position: relative; z-index: 1; }
   .hero h1 { min-height: 3.3em; }
   .form, .edu-card, .card { padding: 22px; }
 }
+
+/* Picture element fills the frame */
+.photo-frame picture { display: contents; }
+
+/* Contact form states */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form .btn { position: relative; }
+.spinner {
+  display: none; width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite;
+}
+.form.sending .spinner { display: inline-block; }
+.form.sending .btn-label { opacity: .7; }
+.btn:disabled { cursor: progress; }
+.skills li[hidden] { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 404 */
+.notfound { min-height: 80vh; display: grid; place-content: center; justify-items: start; gap: 16px; }
+.notfound h1 { font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -.03em; font-weight: 600; }

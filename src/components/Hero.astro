@@ -1,0 +1,84 @@
+---
+import { Picture } from 'astro:assets';
+import { site } from '../data/site';
+---
+
+<section class="hero wrap">
+  <div class="hero-text">
+    <p class="status mono reveal"><span class="dot"></span>{site.status}</p>
+    <h1 class="reveal">
+      Hi, I'm {site.firstName}.<br />
+      I'm a <em class="typed" aria-live="polite" data-roles={JSON.stringify(site.roles)}>{site.roles[0]}</em><span
+        class="caret"
+        aria-hidden="true"></span>
+    </h1>
+    <p class="lead muted reveal">{site.intro}</p>
+    <div class="actions reveal">
+      <a class="btn" href="#contact">Get in touch</a>
+      {site.cv && <a class="btn ghost" href={site.cv} download>Download CV ↓</a>}
+      <a class="link" href="#experience">View experience →</a>
+    </div>
+  </div>
+  <figure class="photo reveal">
+    <div class="photo-frame tilt">
+      <Picture
+        src={site.photo}
+        alt={`Portrait of ${site.name}`}
+        formats={['avif', 'webp']}
+        widths={[320, 480, 680]}
+        sizes="(max-width: 560px) 200px, (max-width: 880px) 260px, 340px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <figcaption class="mono muted"><span class="pin">⌖</span> {site.location}</figcaption>
+  </figure>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {
+      [0, 1].map(() =>
+        Object.values(site.skills)
+          .flat()
+          .slice(0, 10)
+          .map((w) => (
+            <>
+              <span>{w}</span>
+              <span class="star">✦</span>
+            </>
+          )),
+      )
+    }
+  </div>
+</div>
+
+<script>
+  import { $, reduceMotion } from '../scripts/dom';
+
+  // Typewriter effect cycling through roles
+  const typed = $('.typed');
+  const roles: string[] = JSON.parse(typed.dataset.roles ?? '[]');
+
+  if (!reduceMotion && roles.length > 1) {
+    let r = 0;
+    let c = roles[0].length;
+    let deleting = true;
+    const tick = () => {
+      const word = roles[r];
+      c += deleting ? -1 : 1;
+      typed.textContent = word.slice(0, c);
+      let delay = deleting ? 35 : 70;
+      if (!deleting && c === word.length) {
+        deleting = true;
+        delay = 1800;
+      } else if (deleting && c === 0) {
+        deleting = false;
+        r = (r + 1) % roles.length;
+        delay = 300;
+      }
+      setTimeout(tick, delay);
+    };
+    setTimeout(tick, 2000);
+  }
+</script>
