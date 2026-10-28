@@ -76,7 +76,7 @@ export const site: Site = {
     "I'm studying Business Management and Leadership at Coventry University, " +
     'learning how great organisations are built, and how to lead the people inside them.',
 
-  location: 'Coventry, United Kingdom',
+  location: 'London, United Kingdom',
   status: 'Open to internships & placements',
 
   // To show a "Download CV" button: put your CV in the public folder (public/cv.pdf) and write '/cv.pdf'.
@@ -90,7 +90,7 @@ export const site: Site = {
   facts: [
     { label: 'University', value: 'Coventry University' },
     { label: 'Degree', value: 'BA (Hons) Business Management & Leadership' },
-    { label: 'Based in', value: 'Coventry, UK' },
+    { label: 'Based in', value: 'London, UK' },
     { label: 'Interests', value: 'Leadership, strategy, entrepreneurship' }, // TODO: edit
   ],
 
@@ -103,7 +103,7 @@ export const site: Site = {
       type: 'Part-time',
       start: '2025',
       end: 'Present',
-      location: 'Coventry, UK',
+      location: 'London, UK',
       points: [
         'What you were responsible for, in one line.',
         'A result you achieved — numbers help (e.g. served 100+ customers a day).',
