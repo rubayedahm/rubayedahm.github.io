@@ -23,7 +23,8 @@ export interface Education {
   school: string;
   start: string;
   end: string;
-  details: string;
+  location?: string;
+  details?: string;
 }
 
 export interface Highlight {
@@ -144,11 +145,11 @@ export const site: Site = {
       details: 'Modules include leadership, strategy, marketing, finance, and organisational behaviour.',
     },
     {
-      degree: 'Previous qualification (e.g. A-Levels / HSC)', // TODO
-      school: 'School or College Name', // TODO
-      start: '20XX',
-      end: '20XX',
-      details: "Subjects or grades you're proud of.",
+      degree: 'Secondary & Higher Secondary Education (SSC & HSC)',
+      school: 'Jalalabad Cantonment Public School and College',
+      start: '2011',
+      end: '2024',
+      location: 'Sylhet, Bangladesh',
     },
   ],
 

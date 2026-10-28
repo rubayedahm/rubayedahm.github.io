@@ -296,6 +296,7 @@ main, footer { position: relative; z-index: 2; }
   background: var(--surface-2); border: 1px solid var(--line); font-size: 1.5rem; margin-bottom: 8px;
 }
 .edu-school { font-weight: 600; }
+.edu-location { font-size: 0.78rem; margin-top: -6px; }
 .edu-school::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--grad); margin-right: 8px; vertical-align: 1px; }
 
 /* Skills */

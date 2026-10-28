@@ -69,7 +69,8 @@ const skillIcons: Record<string, string> = {
           </span>
           <h3>{e.degree}</h3>
           <p class="edu-school">{e.school}</p>
-          <p class="muted">{e.details}</p>
+          {e.location && <p class="edu-location mono muted">📍 {e.location}</p>}
+          {e.details && <p class="muted">{e.details}</p>}
         </article>
       ))
     }
