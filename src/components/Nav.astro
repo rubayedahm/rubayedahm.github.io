@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 const links = [
   { href: '#about', label: 'About' },
   { href: '#experience', label: 'Experience' },
@@ -10,15 +12,11 @@ interface Props {
   name: string;
 }
 const { name } = Astro.props;
-const initials = name
-  .split(' ')
-  .map((w) => w[0])
-  .join('');
 ---
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="logo"><span class="logo-mark" aria-hidden="true">{initials}</span><span class="logo-name">{name}</span></a>
+    <a href="#top" class="logo" aria-label={`${name} — home`}><Logo class="logo-mark" /><span class="logo-name">{name}</span></a>
     <nav class="links" aria-label="Main">
       {links.map((l) => <a href={l.href}>{l.label}</a>)}
     </nav>

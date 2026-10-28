@@ -1,0 +1,26 @@
+---
+// "RA" monogram: the R's leg flows into the A. Drawn with strokes in currentColor
+// so it follows the text colour in light and dark mode.
+interface Props {
+  size?: number;
+  class?: string;
+}
+const { size = 30, class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d="M5 26V6h7a5 5 0 0 1 0 10H5"></path>
+  <path d="M10.5 16 16 26l6-20 6 20"></path>
+  <path d="M18.2 19.5h7.6"></path>
+</svg>
