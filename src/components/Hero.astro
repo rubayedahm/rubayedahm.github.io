@@ -1,37 +1,49 @@
 ---
 import { Picture } from 'astro:assets';
 import { site } from '../data/site';
+
+const school = site.education[0]?.school;
 ---
 
 <section class="hero wrap">
   <div class="hero-text">
-    <p class="status mono reveal"><span class="dot"></span>{site.status}</p>
+    <p class="status reveal"><span class="dot"></span>{site.status}</p>
     <h1 class="reveal">
       Hi, I'm {site.firstName}.<br />
-      I'm a <em class="typed" aria-live="polite" data-roles={JSON.stringify(site.roles)}>{site.roles[0]}</em><span
-        class="caret"
-        aria-hidden="true"></span>
+      I'm a <span class="typed grad-text" aria-live="polite" data-roles={JSON.stringify(site.roles)}
+        >{site.roles[0]}</span
+      ><span class="caret" aria-hidden="true"></span>
     </h1>
-    <p class="lead muted reveal">{site.intro}</p>
+    <p class="lead reveal">{site.intro}</p>
     <div class="actions reveal">
-      <a class="btn" href="#contact">Get in touch</a>
-      {site.cv && <a class="btn ghost" href={site.cv} download>Download CV ↓</a>}
-      <a class="link" href="#experience">View experience →</a>
+      <a class="btn" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+      {site.cv && <a class="btn ghost" href={site.cv} download>Download CV</a>}
+      <a class="btn ghost" href="#experience">View experience</a>
     </div>
   </div>
+
   <figure class="photo reveal">
+    <div class="photo-glow" aria-hidden="true"></div>
     <div class="photo-frame tilt">
       <Picture
         src={site.photo}
         alt={`Portrait of ${site.name}`}
         formats={['avif', 'webp']}
         widths={[320, 480, 680]}
-        sizes="(max-width: 560px) 200px, (max-width: 880px) 260px, 340px"
+        sizes="(max-width: 560px) 240px, (max-width: 880px) 280px, 360px"
         loading="eager"
         fetchpriority="high"
       />
     </div>
-    <figcaption class="mono muted"><span class="pin">⌖</span> {site.location}</figcaption>
+    {
+      school && (
+        <figcaption class="chip chip-a">
+          <span class="chip-icon">🎓</span>
+          {school}
+        </figcaption>
+      )
+    }
+    <div class="chip chip-b"><span class="chip-icon">📍</span>{site.location}</div>
   </figure>
 </section>
 

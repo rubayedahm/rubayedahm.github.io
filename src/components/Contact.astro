@@ -3,10 +3,12 @@ import Section from './Section.astro';
 import { site } from '../data/site';
 ---
 
-<Section id="contact" index={6} title="Contact">
-  <div class="contact-grid">
-    <div class="reveal">
-      <p class="big">Let's talk about <em>opportunities</em>, ideas, or just say hello.</p>
+<Section id="contact" index={6} title="Contact" heading="Let's <span class='grad-text'>work together</span>">
+  <div class="contact-card tile reveal">
+    <div class="contact-glow" aria-hidden="true"></div>
+    <div class="contact-info">
+      <p class="big">Open to internships, placements, and good conversations.</p>
+      <p class="muted">Send a message with the form, or reach me directly:</p>
       <button class="email" id="copy-email" title="Click to copy" data-email={site.email}>
         <span>{site.email}</span>
         <span class="copy-hint mono">copy</span>
@@ -24,7 +26,7 @@ import { site } from '../data/site';
       </ul>
     </div>
 
-    <form class="form reveal" id="contact-form" novalidate data-key={site.contactFormKey} data-email={site.email}>
+    <form class="form" id="contact-form" novalidate data-key={site.contactFormKey} data-email={site.email}>
       <label>Name<input name="name" required autocomplete="name" maxlength="100" /></label>
       <label>Email<input name="email" type="email" required autocomplete="email" maxlength="200" /></label>
       <label>Message<textarea name="message" rows="5" required maxlength="5000"></textarea></label>

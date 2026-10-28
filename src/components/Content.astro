@@ -2,61 +2,69 @@
 import Section from './Section.astro';
 import { site } from '../data/site';
 
-const skillGroups = Object.keys(site.skills);
-const allSkills = Object.values(site.skills).flat();
+const skillIcons: Record<string, string> = {
+  'Leadership & people': '🧭',
+  Business: '📈',
+  Tools: '🛠️',
+};
 ---
 
-<Section id="about" index={1} title="About">
-  <div class="about-grid">
-    <div class="about-text reveal">
+<Section id="about" index={1} title="About" heading="A little <span class='grad-text'>about me</span>">
+  <div class="bento">
+    <article class="tile tile-about tilt reveal">
       {site.about.map((p) => <p>{p}</p>)}
-    </div>
-    <dl class="facts reveal">
-      {
-        site.facts.map((f) => (
-          <div>
-            <dt class="mono">{f.label}</dt>
-            <dd>{f.value}</dd>
-          </div>
-        ))
-      }
-    </dl>
+    </article>
+    {
+      site.facts.map((f, i) => (
+        <article class="tile tile-fact tilt reveal" style={`--i:${i}`}>
+          <p class="fact-label mono">{f.label}</p>
+          <p class="fact-value">{f.value}</p>
+        </article>
+      ))
+    }
   </div>
 </Section>
 
-<Section id="experience" index={2} title="Experience">
+<Section id="experience" index={2} title="Experience" heading="Where I've <span class='grad-text'>worked</span>">
   <ol class="timeline">
     {
       site.experience.map((x, i) => (
         <li class="tl-item reveal" style={`--i:${i}`}>
-          <div class="tl-when mono muted">
-            {x.start} — {x.end}
-          </div>
-          <div class="tl-body">
-            <h3>
-              {x.role} <span class="muted">· {x.org}</span>
-            </h3>
-            <p class="tl-meta mono muted">{[x.type, x.location].filter(Boolean).join(' · ')}</p>
+          <span class="tl-dot" aria-hidden="true" />
+          <article class="tile tl-card tilt">
+            <div class="tl-top">
+              <h3>{x.role}</h3>
+              <span class="pill mono">
+                {x.start} — {x.end}
+              </span>
+            </div>
+            <p class="tl-org">
+              {x.org}
+              <span class="muted">{[x.type, x.location].filter(Boolean).join(' · ')}</span>
+            </p>
             <ul>
               {x.points.map((p) => (
                 <li>{p}</li>
               ))}
             </ul>
-          </div>
+          </article>
         </li>
       ))
     }
   </ol>
 </Section>
 
-<Section id="education" index={3} title="Education">
-  <div class="edu">
+<Section id="education" index={3} title="Education" heading="What I'm <span class='grad-text'>learning</span>">
+  <div class="grid-2">
     {
-      site.education.map((e) => (
-        <article class="edu-card tilt reveal">
-          <p class="mono muted">
+      site.education.map((e, i) => (
+        <article class="tile edu-card tilt reveal" style={`--i:${i}`}>
+          <div class="edu-icon" aria-hidden="true">
+            {i === 0 ? '🎓' : '📚'}
+          </div>
+          <span class="pill mono">
             {e.start} — {e.end}
-          </p>
+          </span>
           <h3>{e.degree}</h3>
           <p class="edu-school">{e.school}</p>
           <p class="muted">{e.details}</p>
@@ -66,34 +74,38 @@ const allSkills = Object.values(site.skills).flat();
   </div>
 </Section>
 
-<Section id="skills" index={4} title="Skills">
-  <div class="skills-tabs reveal" role="tablist">
+<Section id="skills" index={4} title="Skills" heading="What I <span class='grad-text'>bring</span>">
+  <div class="grid-3">
     {
-      ['All', ...skillGroups].map((g, i) => (
-        <button role="tab" class="mono" data-tab={g} aria-selected={i === 0 ? 'true' : 'false'}>
-          {g}
-        </button>
+      Object.entries(site.skills).map(([group, items], i) => (
+        <article class="tile skill-card tilt reveal" style={`--i:${i}`}>
+          <div class="skill-head">
+            <span class="skill-icon" aria-hidden="true">
+              {skillIcons[group] ?? '✦'}
+            </span>
+            <h3>{group}</h3>
+          </div>
+          <ul class="chips">
+            {items.map((s) => (
+              <li>{s}</li>
+            ))}
+          </ul>
+        </article>
       ))
     }
   </div>
-  <ul class="skills reveal">
-    {
-      allSkills.map((s, i) => (
-        <li style={`--i:${i}`} data-groups={skillGroups.filter((g) => site.skills[g].includes(s)).join('|')}>
-          {s}
-        </li>
-      ))
-    }
-  </ul>
 </Section>
 
 {
   site.highlights.length > 0 && (
-    <Section id="highlights" index={5} title="Highlights">
-      <div class="cards">
-        {site.highlights.map((h) => (
-          <article class="card tilt reveal">
-            <span class="tag mono">{h.tag}</span>
+    <Section id="highlights" index={5} title="Highlights" heading="Things I'm <span class='grad-text'>proud of</span>">
+      <div class="grid-3">
+        {site.highlights.map((h, i) => (
+          <article class="tile card tilt reveal" style={`--i:${i}`}>
+            <div class="card-top">
+              <span class="pill mono">{h.tag}</span>
+              <span class="card-num mono">{String(i + 1).padStart(2, '0')}</span>
+            </div>
             <h3>{h.title}</h3>
             <p class="muted">{h.text}</p>
           </article>
@@ -102,29 +114,3 @@ const allSkills = Object.values(site.skills).flat();
     </Section>
   )
 }
-
-<script>
-  import { $, $$ } from '../scripts/dom';
-
-  // Skill filter tabs
-  const tabs = $('.skills-tabs');
-  const items = $$('.skills li');
-  tabs.addEventListener('click', (e) => {
-    const btn = (e.target as Element).closest<HTMLButtonElement>('button');
-    if (!btn) return;
-    const tab = btn.dataset.tab ?? 'All';
-    $$('button', tabs).forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
-    let i = 0;
-    items.forEach((li) => {
-      const show = tab === 'All' || (li.dataset.groups ?? '').split('|').includes(tab);
-      li.hidden = !show;
-      if (show) {
-        li.style.setProperty('--i', String(i++));
-        // restart the pop-in animation
-        li.style.animation = 'none';
-        void li.offsetWidth;
-        li.style.animation = '';
-      }
-    });
-  });
-</script>

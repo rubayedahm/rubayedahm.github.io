@@ -3,11 +3,15 @@ interface Props {
   id: string;
   index: number;
   title: string;
+  heading: string;
 }
-const { id, index, title } = Astro.props;
+const { id, index, title, heading } = Astro.props;
 ---
 
 <section id={id} class="section wrap">
-  <h2 class="label mono reveal"><span>{String(index).padStart(2, '0')}</span> {title}</h2>
+  <header class="section-head reveal">
+    <p class="eyebrow mono"><span>{String(index).padStart(2, '0')}</span>{title}</p>
+    <h2 class="section-title" set:html={heading} />
+  </header>
   <slot />
 </section>
