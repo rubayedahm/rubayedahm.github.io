@@ -40,13 +40,15 @@ const skillIcons: Record<string, string> = {
             </div>
             <p class="tl-org">
               {x.org}
-              <span class="muted">{[x.type, x.location].filter(Boolean).join(' · ')}</span>
+              {(x.type || x.location) && <span class="muted">{[x.type, x.location].filter(Boolean).join(' · ')}</span>}
             </p>
-            <ul>
-              {x.points.map((p) => (
-                <li>{p}</li>
-              ))}
-            </ul>
+            {x.points && x.points.length > 0 && (
+              <ul>
+                {x.points.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            )}
           </article>
         </li>
       ))

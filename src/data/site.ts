@@ -15,7 +15,7 @@ export interface Experience {
   start: string;
   end: string;
   location?: string;
-  points: string[];
+  points?: string[];
 }
 
 export interface Education {
@@ -94,29 +94,28 @@ export const site: Site = {
     { label: 'Interests', value: 'Leadership, strategy, entrepreneurship' }, // TODO: edit
   ],
 
-  // ---------- Experience (newest first) ----------
-  // TODO: replace these with your real jobs, volunteering or roles.
+  // ---------- Experience ----------
+  // Optional for each role: type ('Part-time', 'Volunteer'...), location, and points
+  // (1–3 short lines about what you do or achieved). Leave them out to hide them.
   experience: [
     {
-      role: 'Your Job Title',
-      org: 'Company Name',
-      type: 'Part-time',
-      start: '2025',
+      role: 'Head of IT',
+      org: 'IHRS — International Human Rights and Organisation',
+      start: 'Jan 2026',
       end: 'Present',
-      location: 'London, UK',
-      points: [
-        'What you were responsible for, in one line.',
-        'A result you achieved — numbers help (e.g. served 100+ customers a day).',
-      ],
     },
     {
-      role: 'Your Job Title',
-      org: 'Company Name',
-      type: 'Volunteer',
-      start: '2024',
-      end: '2025',
-      location: 'City, Country',
-      points: ['What you did and who you worked with.', 'A skill you built or a problem you solved.'],
+      role: 'Administrative Assistant',
+      org: 'IHRS Fetch Commerce',
+      start: 'Aug 2026',
+      end: 'Present',
+    },
+    {
+      role: 'Course Representative',
+      org: 'CU London',
+      start: 'Dec 2025',
+      end: 'Present',
+      location: 'London, UK',
     },
   ],
 

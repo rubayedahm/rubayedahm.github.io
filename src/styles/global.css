@@ -278,8 +278,9 @@ main, footer { position: relative; z-index: 2; }
   background: var(--bg); border: 3px solid var(--accent); box-shadow: 0 0 0 5px var(--accent-soft);
 }
 .tl-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-.tl-org { font-weight: 500; margin: 4px 0 14px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.tl-org { font-weight: 500; margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 4px 12px; }
 .tl-org .muted { font-weight: 400; font-size: 0.92rem; }
+.tl-card ul { margin-top: 14px; }
 .tl-card ul li { position: relative; padding-left: 22px; color: var(--muted); }
 .tl-card ul li + li { margin-top: 6px; }
 .tl-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
