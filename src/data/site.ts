@@ -140,8 +140,8 @@ export const site: Site = {
     {
       degree: 'BA (Hons) Business Management and Leadership',
       school: 'Coventry University',
-      start: '20XX', // TODO
-      end: '20XX', // TODO
+      start: '2025',
+      end: 'Present',
       details: 'Modules include leadership, strategy, marketing, finance, and organisational behaviour.',
     },
     {
