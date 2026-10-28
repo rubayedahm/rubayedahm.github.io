@@ -103,12 +103,22 @@ export const site: Site = {
       org: 'IHRS — International Human Rights and Organisation',
       start: 'Jan 2026',
       end: 'Present',
+      points: [
+        "Lead the organisation's IT, overseeing its website, digital systems and online tools.",
+        'Provide technical support to the team and help keep data and accounts secure.',
+        'Plan and introduce technology that helps the team work more efficiently.',
+      ],
     },
     {
       role: 'Administrative Assistant',
       org: 'IHRS Fetch Commerce',
       start: 'Aug 2026',
       end: 'Present',
+      points: [
+        'Support day-to-day operations, including scheduling, record-keeping and correspondence.',
+        'Prepare documents and reports, keeping files organised and up to date.',
+        'Handle enquiries from colleagues and customers quickly and professionally.',
+      ],
     },
     {
       role: 'Course Representative',
@@ -116,6 +126,11 @@ export const site: Site = {
       start: 'Dec 2025',
       end: 'Present',
       location: 'London, UK',
+      points: [
+        'Represent my course mates, gathering their feedback and sharing it with academic staff.',
+        'Attend course meetings to help improve teaching and the student experience.',
+        'Act as a link between students and the university, communicating updates and changes.',
+      ],
     },
   ],
 
