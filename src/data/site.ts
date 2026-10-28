@@ -63,7 +63,7 @@ export interface Site {
 export const site: Site = {
   name: 'Rubayed Ahmed',
   firstName: 'Rubayed',
-  title: 'Rubayed Ahmed — Business Management & Leadership',
+  title: 'Rubayed Ahmed',
   description:
     'Rubayed Ahmed — Business Management and Leadership student at Coventry University. Experience, education, skills and contact.',
 
