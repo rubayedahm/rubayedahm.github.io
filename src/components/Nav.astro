@@ -2,12 +2,13 @@
 import Logo from './Logo.astro';
 
 const links = [
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#education', label: 'Education' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/#about', label: 'About' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#skills', label: 'Skills' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/#contact', label: 'Contact' },
 ];
+const onBlog = Astro.url.pathname.startsWith('/blog');
 interface Props {
   name: string;
 }
@@ -16,9 +17,15 @@ const { name } = Astro.props;
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="logo" aria-label={`${name} — home`}><Logo class="logo-mark" size={34} /></a>
+    <a href="/" class="logo" aria-label={`${name} — home`}><Logo class="logo-mark" size={34} /></a>
     <nav class="links" aria-label="Main">
-      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      {
+        links.map((l) => (
+          <a href={l.href} class:list={{ active: onBlog && l.href === '/blog/' }}>
+            {l.label}
+          </a>
+        ))
+      }
     </nav>
     <div class="nav-tools">
       <button class="kbd-btn" id="open-palette" aria-label="Open quick menu">
@@ -88,7 +95,7 @@ const { name } = Astro.props;
     (entries) =>
       entries.forEach((en) => {
         if (!en.isIntersecting) return;
-        navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${en.target.id}`));
+        navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `/#${en.target.id}`));
       }),
     { rootMargin: '-45% 0px -50% 0px' },
   );

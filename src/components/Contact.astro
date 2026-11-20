@@ -1,9 +1,14 @@
 ---
 import Section from './Section.astro';
 import { site } from '../data/site';
+
+interface Props {
+  index: number;
+}
+const { index } = Astro.props;
 ---
 
-<Section id="contact" index={6} title="Contact" heading="Let's <span class='grad-text'>work together</span>">
+<Section id="contact" index={index} title="Contact" heading="Let's <span class='grad-text'>work together</span>">
   <div class="contact-card tile reveal">
     <div class="contact-glow" aria-hidden="true"></div>
     <div class="contact-info">

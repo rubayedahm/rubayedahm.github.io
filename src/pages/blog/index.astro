@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts } from '../../utils/posts';
+import { site } from '../../data/site';
+
+const posts = await getPosts();
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+
+<Base
+  title={`Blog — ${site.name}`}
+  description={`Projects, lessons and skills — notes from ${site.firstName}'s work and life.`}
+>
+  <main id="top" class="wrap blog-page">
+    <header class="page-head">
+      <p class="eyebrow mono reveal"><span>✦</span>Blog</p>
+      <h1 class="page-title reveal">Notes on <span class="grad-text">work, life</span> &amp; lessons</h1>
+      <p class="lead reveal">
+        What I'm building, what I'm learning, and what I'd do differently next time. Written in public.
+      </p>
+      <a class="rss-link mono reveal" href="/rss.xml">RSS feed ↗</a>
+    </header>
+
+    {
+      tags.length > 1 && (
+        <div class="tag-filter reveal" role="toolbar" aria-label="Filter posts by topic">
+          {['All', ...tags].map((t, i) => (
+            <button class="mono" data-tag={t} aria-pressed={i === 0 ? 'true' : 'false'}>
+              {t}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      posts.length > 0 ? (
+        <div class="post-list">
+          {posts.map((post, i) => (
+            <PostCard post={post} index={i} />
+          ))}
+        </div>
+      ) : (
+        <p class="muted">First post coming soon.</p>
+      )
+    }
+  </main>
+</Base>
+
+<script>
+  import { $$ } from '../../scripts/dom';
+
+  // Filter posts by tag without reloading the page
+  const buttons = $$<HTMLButtonElement>('.tag-filter button');
+  const cards = $$('.post-card');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag ?? 'All';
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      cards.forEach((card) => {
+        card.hidden = tag !== 'All' && !(card.dataset.tags ?? '').split('|').includes(tag);
+      });
+    }),
+  );
+</script>

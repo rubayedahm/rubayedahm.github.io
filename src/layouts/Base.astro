@@ -1,13 +1,16 @@
 ---
 import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 import { site } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
+  type?: 'profile' | 'article' | 'website';
 }
 
-const { title = site.title, description = site.description } = Astro.props;
+const { title = site.title, description = site.description, type = 'profile' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og.jpg', Astro.site);
 
@@ -33,11 +36,12 @@ const personLd = {
     <meta name="theme-color" content="#f6f6f8" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="profile" />
+    <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} — Blog`} href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -45,6 +49,7 @@ const personLd = {
       rel="stylesheet"
     />
     <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+    <slot name="head" />
     <script is:inline>
       // Apply saved theme before paint to avoid a flash
       try {
@@ -57,7 +62,14 @@ const personLd = {
     <div class="progress" aria-hidden="true"></div>
     <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="spotlight" aria-hidden="true"></div>
+    <Nav name={site.name} />
     <slot />
+    <footer class="wrap footer mono muted">
+      <span>© {new Date().getFullYear()} {site.name}</span>
+      <span class="hide-sm">Press <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> to jump anywhere</span>
+      <a href="#top">Top ↑</a>
+    </footer>
+    <CommandPalette />
     <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
     <script>
       import '../scripts/effects';

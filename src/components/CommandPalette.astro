@@ -1,5 +1,8 @@
 ---
 import { site } from '../data/site';
+import { getPosts, postUrl } from '../utils/posts';
+
+const posts = await getPosts();
 
 // Serialisable command list; actions are resolved in the client script below.
 const commands = [
@@ -9,6 +12,8 @@ const commands = [
   { label: 'Go to Skills', hint: 'Section', action: 'goto', value: '#skills' },
   ...(site.highlights.length ? [{ label: 'Go to Highlights', hint: 'Section', action: 'goto', value: '#highlights' }] : []),
   { label: 'Go to Contact', hint: 'Section', action: 'goto', value: '#contact' },
+  { label: 'Open Blog', hint: 'Page', action: 'link', value: '/blog/' },
+  ...posts.slice(0, 5).map((p) => ({ label: `Read: ${p.data.title}`, hint: 'Post', action: 'link', value: postUrl(p) })),
   { label: 'Copy email address', hint: 'Action', action: 'copy', value: site.email },
   { label: 'Send an email', hint: 'Action', action: 'link', value: `mailto:${site.email}` },
   { label: 'Toggle dark / light mode', hint: 'Action', action: 'theme', value: '' },
@@ -40,7 +45,11 @@ const commands = [
   const commands: Command[] = JSON.parse(palette.dataset.commands ?? '[]');
 
   const actions: Record<Action, (value: string) => void> = {
-    goto: (id) => document.querySelector(id)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }),
+    goto: (id) => {
+      const el = document.querySelector(id);
+      if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+      else location.href = `/${id}`;
+    },
     copy: (text) => copyText(text, 'Email copied to clipboard ✓'),
     link: (url) => (location.href = url),
     open: (url) => window.open(url, '_blank', 'noopener'),

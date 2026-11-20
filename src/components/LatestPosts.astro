@@ -1,0 +1,28 @@
+---
+import Section from './Section.astro';
+import PostCard from './PostCard.astro';
+import { getPosts } from '../utils/posts';
+
+interface Props {
+  index: number;
+}
+const { index } = Astro.props;
+const posts = (await getPosts()).slice(0, 3);
+---
+
+{
+  posts.length > 0 && (
+    <Section id="blog" index={index} title="Blog" heading="Latest <span class='grad-text'>writing</span>">
+      <div class="post-list">
+        {posts.map((post, i) => (
+          <PostCard post={post} index={i} />
+        ))}
+      </div>
+      <div class="section-cta reveal">
+        <a class="btn ghost" href="/blog/">
+          View all posts <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </Section>
+  )
+}

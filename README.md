@@ -17,14 +17,39 @@ rebuilds and updates by itself in ~1 minute. Anything marked `TODO` is a placeho
   Messages then arrive in your email inbox.
 - **Highlights**: set `highlights: []` to hide that section.
 
+## Write a blog post
+Posts live in **`src/content/blog/`**, one Markdown file each. The file name becomes the
+URL (`my-first-project.md` → `/blog/my-first-project/`). On GitHub: open that folder →
+**Add file → Create new file**, paste the template below, write, then **Commit changes**.
+
+```markdown
+---
+title: "Your post title"
+description: "One sentence shown on the post card and in Google results."
+date: 2026-12-01
+tags: ["Projects", "Lessons"]
+draft: false
+---
+
+Your post starts here. Use ## for headings, **bold**, - for bullet lists,
+> for a highlighted quote, and [link text](https://example.com) for links.
+```
+
+- `draft: true` hides a post from the live site until you're ready.
+- Optional cover image: upload it next to the post, then add `cover: ./my-image.jpg`
+  and `coverAlt: "What the image shows"`.
+- The 3 newest posts appear on the homepage automatically; all posts are at `/blog/`,
+  and there's an RSS feed at `/rss.xml`.
+
 ## Project structure
 ```
 src/
   data/site.ts          ← your content (typed)
+  content/blog/         ← blog posts (Markdown)
   assets/profile.jpg    ← your photo
   components/           ← page sections (Astro components + TypeScript)
   layouts/Base.astro    ← <head>, SEO, theme setup
-  pages/                ← index.astro, 404.astro
+  pages/                ← home, blog list, blog posts, RSS, 404
   scripts/              ← shared client-side TypeScript
   styles/global.css     ← design tokens + styles
 public/                 ← favicon, social preview image

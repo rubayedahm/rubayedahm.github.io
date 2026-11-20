@@ -1,24 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Content from '../components/Content.astro';
+import LatestPosts from '../components/LatestPosts.astro';
 import Contact from '../components/Contact.astro';
-import CommandPalette from '../components/CommandPalette.astro';
 import { site } from '../data/site';
+
+// Section numbers: About 1 … Skills 4, Highlights 5 (if any), then Blog and Contact.
+const next = site.highlights.length > 0 ? 6 : 5;
 ---
 
 <Base>
-  <Nav name={site.name} />
   <main id="top">
     <Hero />
     <Content />
-    <Contact />
+    <LatestPosts index={next} />
+    <Contact index={next + 1} />
   </main>
-  <footer class="wrap footer mono muted">
-    <span>© {new Date().getFullYear()} {site.name}</span>
-    <span class="hide-sm">Press <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> to jump anywhere</span>
-    <a href="#top">Top ↑</a>
-  </footer>
-  <CommandPalette />
 </Base>
